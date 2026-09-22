@@ -23,7 +23,8 @@ Three tools, run in this order:
 `seqtk` (only for `-d`), `python3` + `matplotlib`, optional `fastqc`.
 All on Bioconda (`environment.yml` in this repo includes them). Reference
 files: bowtie2 index of the target genome (a T2T-class assembly such as
-CHM13v2.0; repeat quantification needs complete centromeres), bowtie2 index
+CHM13v2.0 or a T2T RPE1 genome; repeat quantification needs complete
+centromeres; any bowtie2-indexed genome works), bowtie2 index
 of the spike genome for spike-in runs, `chrom.sizes` of the target genome, and
 region BEDs (HOR, optionally HSat2/HSat3, e.g. from the CHM13 censat
 annotation) **in target-genome coordinates**.
@@ -103,7 +104,7 @@ spike-in chromatin, with matched inputs:
 
 ```bash
 A=/path/all_adaptors.fa
-IDX=/path/target_genome/bowtie2/genome   # in our RAD21 analysis: a CHM13-derived haploid RPE1 assembly
+IDX=/path/target_genome/bowtie2/genome   # in our RAD21 analysis: T2T RPE1 genome
 MIDX=/path/mouse/GRCm39                  # spike genome index
 
 for s in IP_cond1 IP_cond2 IP_cond3 IP_cond4 IN_cond1 IN_cond2 IN_cond3 IN_cond4; do
@@ -133,9 +134,9 @@ bin/hor_enrichment.py --pairs pairs_rad21.tsv \
 > The region BEDs must match the assembly the reads were aligned to. If you
 > align to a custom or patched assembly, confirm its coordinates agree with
 > the annotation's source assembly (or lift the annotation over first). For
-> example, the CHM13 HOR bed stays valid on a CHM13-derived RPE1 assembly
-> only if the assembly preserves CHM13 coordinates (SNV substitutions are
-> fine, indels are not).
+> example, the CHM13 HOR bed stays valid on a T2T RPE1 genome only if that
+> assembly preserves CHM13 coordinates (SNV substitutions are fine, indels
+> are not).
 
 ## Outputs
 
@@ -169,11 +170,10 @@ results/_enrichment*/enrichment.tsv + <pair>.<set>.png
 - `outside_<set>` is the per-chromosome complement of the first region set
   (chromosome arms), computed from `chrom.sizes`; `chrM` is excluded by
   default (`--exclude-chroms`).
-- The per-chromosome enrichment-score and lollipop-plot approach follows
-  Saayman et al. 2023 (Mol Cell 83:523–538). `--compiled-pairs` accepts that
-  workflow's compiled bedmap files (`chrom start end score`) for
-  cross-checking old results; unlike the original script, rows are joined by
-  chromosome name rather than row order.
+- `--compiled-pairs` accepts the legacy bedmap workflow's compiled files
+  (`chrom start end score`) for cross-checking old results; rows are joined
+  by chromosome name rather than row order, so a missing chromosome cannot
+  mispair the rest.
 
 ## QC
 

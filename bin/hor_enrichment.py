@@ -38,15 +38,10 @@ is simply the ratio of the two normalised signals, so use bigwigs produced with
 the SAME normalisation (both RPKM, or both spike-scaled).
 
 Backward compatibility: --compiled-pairs takes the old bedmap outputs
-(compiled_*_HOR2.bed / the thesis lollipop script's inputs, 'chrom start end
-score' with optional '|' separators) and ratios them the same way - useful to
-cross-check old scores against the new base-weighted ones. Unlike the original
-script (which divided row-by-row and silently mispaired chromosomes if one
-file was missing one), rows are joined by chromosome name.
-
-The per-chromosome enrichment-score approach follows Saayman et al. 2023
-(Mol Cell 83:523) / X. Saayman's thesis section 6.4, reimplemented with
-base-weighted region sums.
+(compiled_*_HOR2.bed, 'chrom start end score' with optional '|' separators)
+and ratios them the same way - useful to cross-check old scores against the
+new base-weighted ones. Unlike the legacy row-by-row division, rows are
+joined by chromosome name, so a missing chromosome cannot mispair the rest.
 
 Dependencies: pyBigWig, matplotlib (both ship with the deeptools conda env).
 """

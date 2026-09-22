@@ -26,9 +26,9 @@ You need five things ready. Check them off first, it saves debugging later.
    ```
 
    Use a T2T style assembly (for human, CHM13v2.0). Older assemblies have
-   gaps at centromeres, so there is nothing to map to. A CHM13-derived
-   cell-line assembly also works, for example a haploid RPE1 genome; then
-   keep your region BEDs in that assembly's coordinates.
+   gaps at centromeres, so there is nothing to map to. A T2T RPE1 genome
+   also works, and in general any bowtie2-indexed genome does; keep your
+   region BEDs in that assembly's coordinates.
 
 3. If your samples carry spike-in chromatin: a bowtie2 index of the spike
    genome (for mouse MEF spike-in, the mouse genome).
@@ -130,8 +130,10 @@ between samples. That is the main thing this script exists to prevent.
 
 ## Step 3. Enrichment scores and lollipop plots
 
-First write a pairs file. Three tab separated columns: a label for the
-comparison, the IP bigwig, the control bigwig.
+First write a pairs file. This file is not produced by the pipeline, you
+make it yourself in a text editor or with cat, one line per comparison,
+pointing at the bigwigs from Steps 1 and 2. Three tab separated columns: a
+label for the comparison, the IP bigwig, the control bigwig.
 
 ```
 ICRF187_vs_DMSO	results/POL2_ICRF/tracks/POL2_ICRF.rpkm.bw	results/POL2_DMSO/tracks/POL2_DMSO.rpkm.bw

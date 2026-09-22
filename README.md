@@ -12,9 +12,9 @@ base-weighted signal ratios, plotted as lollipop charts.
 
 Developed for RNA polymerase II and cohesin (RAD21) ChIP-seq at human
 centromeres in quiescent RPE1 cells. In our analyses the RNAP2 data were
-aligned to T2T-CHM13v2.0 and the RAD21 data to a CHM13-derived haploid RPE1
-assembly. The pipeline itself takes any bowtie2 index and applies to any
-target and any genome with usable repeat annotation.
+aligned to T2T-CHM13v2.0 and the RAD21 data to a T2T RPE1 genome. The
+pipeline applies to any bowtie2-indexed genome with matching region
+annotations, and to any ChIP target.
 
 ## What is included
 
@@ -41,8 +41,8 @@ Tools: `trimmomatic`, `bowtie2`, `samtools`, `deeptools` (brings `pyBigWig`),
 `seqtk`, python with `matplotlib`, optional `fastqc`.
 
 Reference files: a bowtie2 index of a T2T-class genome (for human,
-T2T-CHM13v2.0 or a CHM13-derived cell-line assembly such as a haploid RPE1
-genome; older assemblies have no centromeres to map to), a
+T2T-CHM13v2.0 or a T2T RPE1 genome; older assemblies have no centromeres to
+map to; any bowtie2-indexed genome works), a
 `chrom.sizes` file, region BEDs in the same coordinates (HOR, optionally
 HSat2/HSat3, e.g. from the CHM13 censat annotation), an adaptor fasta for
 Trimmomatic, and a bowtie2 index of the spike genome for spike-in runs.
@@ -69,7 +69,9 @@ bin/chip_repeat_pipeline.sh -P rad21 -n RAD21_WT -a all_adaptors.fa \
 bin/spikein_scale_bigwigs.sh -o results -p 8
 ```
 
-Enrichment (pairs file: label, IP bigwig, control bigwig, tab separated):
+Enrichment. `pairs.tsv` is a small file you write yourself, one comparison
+per line, three tab-separated columns: a label, the IP bigwig, the control
+bigwig:
 
 ```bash
 bin/hor_enrichment.py --pairs pairs.tsv \
@@ -96,10 +98,6 @@ outside-HOR (chromosome arm) control, and `enrichment.tsv` with every number.
 3. Enrichment scores are base-weighted signal sums, IP over control, within
    identical intervals, so region length cancels and chromosomes are
    comparable.
-
-The per-chromosome enrichment-score and lollipop approach follows
-Saayman et al. 2023 (Mol Cell 83:523-538), reimplemented with base-weighted
-sums.
 
 ## Citation
 
