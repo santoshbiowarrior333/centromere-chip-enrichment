@@ -10,6 +10,8 @@ keeps them, aligns to a T2T-class genome, normalises correctly with or without
 an exogenous spike-in, and quantifies enrichment per chromosome as
 base-weighted signal ratios, plotted as lollipop charts.
 
+![Animated overview: pipeline steps, signal at the centromere, and per-chromosome enrichment scores](docs/pipeline_overview.gif)
+
 Our own analyses were run on T2T genomes: T2T-CHM13v2.0 and a T2T RPE1
 genome. The pipeline itself is genome agnostic and works with any
 bowtie2-indexed genome and matching region annotations, including other
