@@ -5,6 +5,7 @@ authors:
   - family-names: "Kumar"
     given-names: "Santosh"
 repository-code: "https://github.com/santoshbiowarrior333/centromere-chip-enrichment"
+doi: 10.5281/zenodo.22895553
 license: MIT
 version: 1.0.0
 date-released: "2026-09-22"

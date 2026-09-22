@@ -1,5 +1,7 @@
 # centromere-chip-enrichment
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22895553.svg)](https://doi.org/10.5281/zenodo.22895553)
+
 ChIP-seq analysis pipeline for centromeric and repetitive regions: from raw
 FASTQs to per-chromosome enrichment scores at alpha-satellite higher-order
 repeats (HORs), human satellites, and chromosome arms.
@@ -102,9 +104,9 @@ outside-HOR (chromosome arm) control, and `enrichment.tsv` with every number.
 
 ## Citation
 
-If you use this pipeline, please cite this repository
-(github.com/santoshbiowarrior333/centromere-chip-enrichment) and the
-associated manuscript (in preparation). See `CITATION.cff`.
+If you use this pipeline, please cite it via its DOI,
+[10.5281/zenodo.22895553](https://doi.org/10.5281/zenodo.22895553) (v1.0.0),
+and the associated manuscript (in preparation). See `CITATION.cff`.
 
 ## License
 
