@@ -57,7 +57,7 @@ if [[ $# -gt 0 ]]; then
 else
   want=()
   for d in "$OUTROOT"/*/; do
-    [[ -f "$d/spike/spike_count.txt" ]] && want+=("$(basename "$d")")
+    if [[ -f "$d/spike/spike_count.txt" ]]; then want+=("$(basename "$d")"); fi
   done
 fi
 [[ ${#want[@]} -ge 1 ]] || { echo "ERROR: no samples with spike/spike_count.txt under $OUTROOT"; exit 1; }
@@ -83,7 +83,7 @@ elif [[ $PERMILLION -eq 1 ]]; then
   echo "reference: 1e6 spike reads (ChIP-Rx / RRPM)"
 else
   for c in "${COUNTS[@]}"; do
-    [[ -z "$REF" || "$c" -lt "$REF" ]] && REF=$c
+    if [[ -z "$REF" || "$c" -lt "$REF" ]]; then REF=$c; fi
   done
   echo "reference: lowest spike count = $REF"
 fi

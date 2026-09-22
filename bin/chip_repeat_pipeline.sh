@@ -75,10 +75,10 @@ done
 
 # presets only fill defaults the user did not override on the command line
 case "$PRESET" in
-  pol2)  [[ -z "${CROP_SET:-}"   ]] && CROP=70
-         [[ -z "${MINLEN_SET:-}" ]] && MINLEN=40 ;;
-  rad21) [[ -z "${CROP_SET:-}"   ]] && CROP=72
-         [[ -z "${MINLEN_SET:-}" ]] && MINLEN=50 ;;
+  pol2)  if [[ -z "${CROP_SET:-}"   ]]; then CROP=70;   fi
+         if [[ -z "${MINLEN_SET:-}" ]]; then MINLEN=40; fi ;;
+  rad21) if [[ -z "${CROP_SET:-}"   ]]; then CROP=72;   fi
+         if [[ -z "${MINLEN_SET:-}" ]]; then MINLEN=50; fi ;;
   "") : ;;
   *) echo "ERROR: unknown preset '$PRESET' (pol2|rad21)"; exit 1 ;;
 esac
@@ -93,7 +93,7 @@ if [[ "$DOWNSAMPLE" -gt 0 ]]; then
   command -v seqtk >/dev/null 2>&1 || { echo "ERROR: seqtk needed for -d"; exit 1; }
 fi
 
-PE=0 ; [[ -n "$R2" ]] && PE=1
+PE=0 ; if [[ -n "$R2" ]]; then PE=1; fi
 S="$OUTROOT/$NAME"
 mkdir -p "$S"/{trim,align,spike,tracks,qc,logs}
 log() { echo "[$(date +%T)] $*"; }
@@ -192,7 +192,7 @@ align_dedup_filter() {  # $1 bt2 index, $2 outdir, $3 tag -> writes $2/$NAME.$3.
 
   if [[ $KEEP -eq 0 ]]; then
     rm -f "$raw" "$sorted" "$nodup"
-    [[ $PE -eq 1 ]] && rm -f "$fixm"
+    if [[ $PE -eq 1 ]]; then rm -f "$fixm"; fi
   fi
 }
 
@@ -204,7 +204,9 @@ if [[ -n "$SPIKE_IDX" ]]; then
   align_dedup_filter "$SPIKE_IDX" "$S/spike" "spike"
   SPIKE_COUNT=$(awk -F'\t' '$1=="spike_dedup_mapped"{print $2}' "$S/stats.raw")
   echo "$SPIKE_COUNT" > "$S/spike/spike_count.txt"
-  if [[ $KEEP -eq 0 ]]; then rm -f "$S/spike/$NAME.spike.final.bam" "$S/spike/$NAME.spike.final.bam.bai"; fi
+  if [[ $KEEP -eq 0 ]]; then
+    rm -f "$S/spike/$NAME.spike.final.bam" "$S/spike/$NAME.spike.final.bam.bai"
+  fi
 fi
 
 # ---------------------------------------------------------------------- bigwig
@@ -230,6 +232,6 @@ rm -f "$S/stats.raw"
 
 log "done: $S"
 log "  final BAM : $FINAL"
-[[ -z "$SPIKE_IDX" ]] && log "  bigwig    : $S/tracks/${NAME}.rpkm.bw"
-[[ -n "$SPIKE_IDX" ]] && log "  spike-in dedup-mapped reads: $SPIKE_COUNT"
+if [[ -z "$SPIKE_IDX" ]]; then log "  bigwig    : $S/tracks/${NAME}.rpkm.bw"; fi
+if [[ -n "$SPIKE_IDX" ]]; then log "  spike-in dedup-mapped reads: $SPIKE_COUNT"; fi
 log "  stats     : $S/stats.tsv"
