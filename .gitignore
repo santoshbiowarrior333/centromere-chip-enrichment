@@ -1,0 +1,29 @@
+# pipeline outputs
+results*/
+logs/
+*.bam
+*.bai
+*.bw
+*.bigWig
+*.bedgraph
+*.bedGraph
+*.narrowPeak
+*.broadPeak
+*.bed
+!config/*.bed
+
+# trimmed / raw data
+*.fq.gz
+*.fastq.gz
+data/
+
+# QC
+*.html
+*.json
+*.png
+
+# env / system
+.DS_Store
+__pycache__/
+*.pyc
+.snakemake/

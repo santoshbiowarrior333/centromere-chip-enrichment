@@ -1,0 +1,112 @@
+# centromere-chip-enrichment
+
+ChIP-seq analysis pipeline for centromeric and repetitive regions: from raw
+FASTQs to per-chromosome enrichment scores at alpha-satellite higher-order
+repeats (HORs), human satellites, and chromosome arms.
+
+Standard ChIP-seq workflows filter on mapping quality, which deletes the
+multi-mapping reads that carry all the signal at centromeres. This pipeline
+keeps them, aligns to a T2T-class genome, normalises correctly with or without
+an exogenous spike-in, and quantifies enrichment per chromosome as
+base-weighted signal ratios, plotted as lollipop charts.
+
+Developed for RNA polymerase II and cohesin (RAD21) ChIP-seq at human
+centromeres in quiescent RPE1 cells. In our analyses the RNAP2 data were
+aligned to T2T-CHM13v2.0 and the RAD21 data to a CHM13-derived haploid RPE1
+assembly. The pipeline itself takes any bowtie2 index and applies to any
+target and any genome with usable repeat annotation.
+
+## What is included
+
+| Tool | Scope | Job |
+|---|---|---|
+| `bin/chip_repeat_pipeline.sh` | per sample | lane merge, optional downsample, trim, align, dedup, filter, coverage track |
+| `bin/spikein_scale_bigwigs.sh` | per experiment | spike-in scale factors and spike-scaled bigwigs |
+| `bin/hor_enrichment.py` | per experiment | per-chromosome enrichment at HOR/HSat/arms, TSV and lollipop plots |
+
+Two presets: `-P pol2` (single-end, no spike-in, RPKM tracks) and `-P rad21`
+(paired-end, spike-in chromatin, spike-scaled tracks). Every parameter can be
+overridden, see the docs.
+
+## Requirements
+
+Bioconda covers everything:
+
+```bash
+conda env create -f environment.yml
+conda activate cenchip
+```
+
+Tools: `trimmomatic`, `bowtie2`, `samtools`, `deeptools` (brings `pyBigWig`),
+`seqtk`, python with `matplotlib`, optional `fastqc`.
+
+Reference files: a bowtie2 index of a T2T-class genome (for human,
+T2T-CHM13v2.0 or a CHM13-derived cell-line assembly such as a haploid RPE1
+genome; older assemblies have no centromeres to map to), a
+`chrom.sizes` file, region BEDs in the same coordinates (HOR, optionally
+HSat2/HSat3, e.g. from the CHM13 censat annotation), an adaptor fasta for
+Trimmomatic, and a bowtie2 index of the spike genome for spike-in runs.
+
+## Quick start
+
+Single-end, no spike-in:
+
+```bash
+bin/chip_repeat_pipeline.sh -P pol2 -n POL2_ICRF -a all_adaptors.fa \
+  -g /data/index/chm13v2.0 \
+  -1 ICRF_L001_R1.fq.gz,ICRF_L002_R1.fq.gz \
+  -p 8 -o results
+```
+
+Paired-end with spike-in, then the group scaling step:
+
+```bash
+bin/chip_repeat_pipeline.sh -P rad21 -n RAD21_WT -a all_adaptors.fa \
+  -g /data/index/chm13v2.0 -s /data/index/GRCm39 \
+  -1 WT_R1.fq.gz -2 WT_R2.fq.gz \
+  -p 8 -o results
+
+bin/spikein_scale_bigwigs.sh -o results -p 8
+```
+
+Enrichment (pairs file: label, IP bigwig, control bigwig, tab separated):
+
+```bash
+bin/hor_enrichment.py --pairs pairs.tsv \
+  --regions HOR=hor.sorted.bed --regions HSat2=hsat2.bed --regions HSat3=hsat3.bed \
+  --chrom-sizes chm13v2.0.chrom.sizes --out results/_enrichment
+```
+
+This gives one lollipop panel per pair for each region set plus an automatic
+outside-HOR (chromosome arm) control, and `enrichment.tsv` with every number.
+
+## Documentation
+
+- `docs/chip_repeat.md`: design decisions and two worked examples.
+- `docs/how_to_run.md`: step-by-step guide, every option explained, sanity
+  checks, common problems.
+
+## The three rules the pipeline enforces
+
+1. No MAPQ filtering (`-F 2308` only), because centromeric reads are
+   multi-mappers. Interpret signal at region level, not base-pair level.
+2. One normalisation, never two: RPKM without spike-in, or a spike scale
+   factor with `--normalizeUsing None`. Never a spike factor on top of RPKM,
+   deepTools multiplies them and depth gets corrected twice.
+3. Enrichment scores are base-weighted signal sums, IP over control, within
+   identical intervals, so region length cancels and chromosomes are
+   comparable.
+
+The per-chromosome enrichment-score and lollipop approach follows
+Saayman et al. 2023 (Mol Cell 83:523-538), reimplemented with base-weighted
+sums.
+
+## Citation
+
+If you use this pipeline, please cite this repository
+(github.com/santoshbiowarrior333/centromere-chip-enrichment) and the
+associated manuscript (in preparation). See `CITATION.cff`.
+
+## License
+
+MIT. See `LICENSE`.

@@ -1,0 +1,14 @@
+name: cenchip
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.10
+  - trimmomatic
+  - bowtie2
+  - samtools>=1.17
+  - deeptools
+  - seqtk
+  - pybigwig
+  - matplotlib
+  - fastqc

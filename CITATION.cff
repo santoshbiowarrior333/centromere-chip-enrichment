@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this pipeline, please cite it as below."
+title: "centromere-chip-enrichment: ChIP-seq enrichment analysis at centromeric repeats"
+authors:
+  - family-names: "Kumar"
+    given-names: "Santosh"
+repository-code: "https://github.com/santoshbiowarrior333/centromere-chip-enrichment"
+license: MIT
+version: 1.0.0
+date-released: "2026-09-22"
