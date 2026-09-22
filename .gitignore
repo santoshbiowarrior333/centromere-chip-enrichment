@@ -21,6 +21,7 @@ data/
 *.html
 *.json
 *.png
+!.zenodo.json
 
 # env / system
 .DS_Store

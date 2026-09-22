@@ -1,0 +1,22 @@
+{
+  "title": "centromere-chip-enrichment: ChIP-seq enrichment analysis at centromeric repeats",
+  "description": "ChIP-seq analysis pipeline for centromeric and repetitive regions: from raw FASTQs to per-chromosome enrichment scores at alpha-satellite higher-order repeats (HORs), human satellites and chromosome arms. Keeps multi-mapping reads, supports single-end and paired-end data, optional exogenous spike-in normalisation, and produces base-weighted enrichment scores with lollipop plots.",
+  "creators": [
+    {
+      "name": "Kumar, Santosh"
+    }
+  ],
+  "license": "MIT",
+  "upload_type": "software",
+  "access_right": "open",
+  "keywords": [
+    "ChIP-seq",
+    "centromere",
+    "alpha satellite",
+    "higher-order repeats",
+    "T2T",
+    "spike-in normalisation",
+    "bioinformatics",
+    "pipeline"
+  ]
+}
