@@ -10,11 +10,10 @@ keeps them, aligns to a T2T-class genome, normalises correctly with or without
 an exogenous spike-in, and quantifies enrichment per chromosome as
 base-weighted signal ratios, plotted as lollipop charts.
 
-Developed for RNA polymerase II and cohesin (RAD21) ChIP-seq at human
-centromeres in quiescent RPE1 cells. In our analyses the RNAP2 data were
-aligned to T2T-CHM13v2.0 and the RAD21 data to a T2T RPE1 genome. The
-pipeline applies to any bowtie2-indexed genome with matching region
-annotations, and to any ChIP target.
+Our own analyses were run on T2T genomes: T2T-CHM13v2.0 and a T2T RPE1
+genome. The pipeline itself is genome agnostic and works with any
+bowtie2-indexed genome and matching region annotations, including other
+genome versions and other species, and with any ChIP target.
 
 ## What is included
 
@@ -61,9 +60,9 @@ bin/chip_repeat_pipeline.sh -P pol2 -n POL2_ICRF -a all_adaptors.fa \
 Paired-end with spike-in, then the group scaling step:
 
 ```bash
-bin/chip_repeat_pipeline.sh -P rad21 -n RAD21_WT -a all_adaptors.fa \
+bin/chip_repeat_pipeline.sh -P rad21 -n IP_rep1 -a all_adaptors.fa \
   -g /data/index/chm13v2.0 -s /data/index/GRCm39 \
-  -1 WT_R1.fq.gz -2 WT_R2.fq.gz \
+  -1 sample_R1.fq.gz -2 sample_R2.fq.gz \
   -p 8 -o results
 
 bin/spikein_scale_bigwigs.sh -o results -p 8

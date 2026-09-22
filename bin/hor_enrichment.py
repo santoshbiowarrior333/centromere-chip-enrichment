@@ -31,7 +31,7 @@ pairs.tsv (tab-separated, no header; '#' comments allowed):
     label <TAB> ip_bigwig <TAB> control_bigwig
 e.g.
     ICRF_vs_DMSO      results/POL2_ICRF/tracks/POL2_ICRF.rpkm.bw   results/POL2_DMSO/tracks/POL2_DMSO.rpkm.bw
-    RAD21_WT_vs_Input results/IP_WT/tracks/IP_WT.spike.bw          results/Input_WT/tracks/Input_WT.spike.bw
+    IP_WT_vs_Input    results/IP_WT/tracks/IP_WT.spike.bw          results/Input_WT/tracks/Input_WT.spike.bw
 
 The control can be a matched input, IgG, or another IP (e.g. DMSO) - the score
 is simply the ratio of the two normalised signals, so use bigwigs produced with

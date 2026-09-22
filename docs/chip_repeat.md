@@ -99,12 +99,12 @@ arm) lollipop panels plus `enrichment.tsv` with the underlying numbers
 
 ## Worked example 2: paired-end with spike-in (rad21 preset)
 
-Cohesin (RAD21) ChIP-seq across four conditions, each sample carrying mouse
+Paired-end ChIP-seq across four conditions, each sample carrying mouse
 spike-in chromatin, with matched inputs:
 
 ```bash
 A=/path/all_adaptors.fa
-IDX=/path/target_genome/bowtie2/genome   # in our RAD21 analysis: T2T RPE1 genome
+IDX=/path/target_genome/bowtie2/genome   # e.g. a T2T RPE1 genome
 MIDX=/path/mouse/GRCm39                  # spike genome index
 
 for s in IP_cond1 IP_cond2 IP_cond3 IP_cond4 IN_cond1 IN_cond2 IN_cond3 IN_cond4; do

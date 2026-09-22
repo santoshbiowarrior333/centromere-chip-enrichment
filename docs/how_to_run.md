@@ -58,7 +58,7 @@ bin/chip_repeat_pipeline.sh -P pol2 -n POL2_DMSO -a all_adaptors.fa \
 Paired-end sample with spike-in:
 
 ```bash
-bin/chip_repeat_pipeline.sh -P rad21 -n RAD21_WT -a all_adaptors.fa \
+bin/chip_repeat_pipeline.sh -P rad21 -n IP_rep1 -a all_adaptors.fa \
   -g /path/target_index -s /path/mouse_index \
   -1 sample_R1.fastq.gz -2 sample_R2.fastq.gz \
   -o results -p 16
